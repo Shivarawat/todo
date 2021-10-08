@@ -1,18 +1,20 @@
-.App {
+.center_div {
+  align-items: center;
   text-align: center;
 }
-.task {
+ol li {
+  list-style: none;
+}
+.todolist {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
 }
-.task.completed i {
-  color: green;
+input {
+  padding: 0.25rem;
 }
-.task.completed h3 {
-  text-decoration: line-through;
-}
-.btn {
-  margin: 0 10px;
+.add {
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem;
 }

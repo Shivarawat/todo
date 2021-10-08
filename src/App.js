@@ -1,33 +1,53 @@
 import './App.css';
-import Header from './components/Header';
-import Tasks from './Tasks';
-import {useState, useRef, useEffect} from 'react';
-
+import { useState } from 'react';
+import TodoList from './TodoList';
 
 function App() {
-  const [task, setTask] = useState('');
-  const inputEl = useRef(null);
-  const handleChange = (e)=>{
-    setTask(e.target.value);
-    // console.log(e.target.value);
-  }
-  var [tasks, setTasks] = useState([{_id:1,header:'task1'},{_id:2,header:'task2'},{_id:3,header:'task3'}]);
 
-  const handleSubmit = (e)=>{
-    e.preventDefault();
-    console.log(task);
-    tasks.push({_id: tasks.length+1, header: task});
-    setTasks(tasks);
-    console.log(tasks);
+  const [inputList, setInputList] = useState('');
+  const [items, setItems] = useState([]);
+  const itemEvent = (e) => {
+      setInputList(e.target.value);
+  };
+  const listOfItems = () =>{
+    setItems((prevItems)=>{
+      return [...prevItems, inputList]; 
+    });
+    setInputList('');
   }
-  useEffect(()=>{},[tasks]);
-  return (
-    <div className="App">
-      <Header />
-      <input type="text" ref={inputEl} value={task} onChange={handleChange} />
-      <button className='btn btn-submit' type='submit' onClick={handleSubmit}>submit</button>
-      <Tasks tasks={tasks} />
+  const deleteItems = (id)=>{
+    console.log('deleted');
+    setItems((prevItems)=>{
+      return prevItems.filter((arrEle, idx)=>{
+        return idx!==id;
+      });
+    });
+  }
+  return(
+    <>
+    <div className="main_div">
+      <div className="center_div">
+        <br />
+        <h1>ToDo List</h1>
+        <br />
+        <input type="text" value={inputList} placeholder='Enter the item:' onChange={itemEvent} />
+        <button className='add' onClick={listOfItems}>+</button>
+
+        <ol>
+          {
+            items.map((item, idx)=>{
+              return <TodoList 
+              text={item} 
+              id={idx} 
+              key={idx} 
+              onSelect={deleteItems}
+              />
+            })
+          }
+        </ol>
+      </div>
     </div>
+    </>
   );
 }
 
